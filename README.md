@@ -1,6 +1,6 @@
 # sdsc_rehs_2022
-SDSC REHS Internships 2022
-SDSC REHS 2021 repository for student collaborative work.
+# SDSC REHS Internships 2022
+# SDSC REHS 2022 repository for student collaborative work.
 
 The two cerebral hemispheres of the brain alternate in dominance with an “ hourly-like” ultradian periodicity and some frequency bands are tightly coupled to the REM-NREM sleep cycle. This is an ongoing project to help elucidate the ultradian rhythm of alternating cerebral hemispheric activity during sleep using whole-head magnetoencephalography (MEG) and electroencephalography (EEG). Four to six hour records of sleep data were collected from four normal healthy subjects using the Elekta Neuromag system with 306 MEG channels and 60 EEG channels collected at 603 Hz that has resulted in a large amount of data to explore and analyze. Much progress has been made to date and we have generated the left minus right (L-R) signals for homologous paired channels across the brain for 6 discrete frequency bands [low-delta (01.-2 Hz), delta (2-4Hz), theta (4-8 Hz), alpha (8-16 Hz), beta (16-30 Hz, and gamma (30-50 Hz) frequencies].
 
