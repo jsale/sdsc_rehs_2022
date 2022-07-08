@@ -1,22 +1,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ffffffff
 % Create and save an image sequence and movie
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+clear
+clc
 
 % Set working director
 % workingDir = '/Users/tyleralex/Documents/MATLAB/Week 2 - June 27-July 1';
-workingDir = '/Users/tyleralex/Documents/MATLAB/Week 2 - June 27-July 1';
+workingDir = '/Users/jsale/sdsc/comet/sleep_neuromag';
 
 % Load data and channel layout
-ch_layout = csvread('neuromag306mag_channel_layout.csv');
-sleep_state = xlsread("hypnogramdata.xlsx");
+ch_layout = csvread('../../../sdsc/comet/sleep_neuromag/layout/neuromag306mag_channel_layout.csv');
+% sleep_state = xlsread("hypnogramdata.xlsx");
 % Initialize variables
 band_array = ["low_delta","delta","theta","alpha","beta","gamma","unfiltered"];
 band_title_array = ["Low Delta","Delta","Theta","Alpha","Beta","Gamma","Unfiltered"];
-subject = "subj2";
+subject = "subj1";
 channel = "m1";
-subject_title = "Subject 2";
+subject_title = "Subject 1";
 channel_title = "M1";   
-increment = 10;
+increment = 100;
 full_length = 15444;
 
 % Loop through frequency bands in band_array
@@ -38,10 +40,10 @@ for band_inc = 1:1
     band = band_array(band_inc);
     band_title = band_title_array(band_inc);
     if band_inc == 7
-        input_data = sprintf('%s/subj-2-data/M1_movmean.mat', workingDir);
+        input_data = sprintf('%s/subj1/step7/2-movmean/M1_movmean.mat', workingDir);
     else
         for bund=1:6
-            input_data = sprintf('%s/subj-2-data/M1_%s_movmean.mat', workingDir, band_array(bund));
+            input_data = sprintf('%s/subj1/step7/2-movmean/M1_%s_movmean.mat', workingDir, band_array(bund));
             load(input_data);
         end
     end
@@ -101,11 +103,11 @@ for band_inc = 1:1
 % Uncomment the code below to set the colorbar axis limits
         
         if cur_band == 7
-            caxis([0.5e-11 2.5e-11]);
+            caxis([0.5e-14 2.5e-14]);
         elseif cur_band == 1
-            caxis([0.1e-11 2.0e-11]);
+            caxis([0.1e-14 2.0e-14]);
         else
-            caxis([0.1e-11 5.0e-12]);
+            caxis([0.1e-14 5.0e-14]);
         end
 
 % Uncomment lines below to set plot parameters
@@ -130,14 +132,14 @@ for band_inc = 1:1
 %         text(7,yval,14800,str2, "FontName", "ArialBold", "FontWeight", "bold", "FontSize", 14)
 
         % Save image
-            outfile = sprintf('%s/video/%s/temp/%s_%s_%s_movmean_z%d.jpg', workingDir, band, subject, channel, band, zval+10000);
+            outfile = sprintf('%s/subj1/video/%s/images_tx/%s_%s_%s_movmean_z%d.jpg', workingDir, band, subject, channel, band, zval+10000);
         %saves the grid to temporary file 
          saveas(gcf, outfile);
         end
         for bandz=1:6
-              band = band_array(bandz);
-    band_title = band_title_array(bandz);
-            outfile = sprintf('%s/video/%s/temp/%s_%s_%s_movmean_z%d.jpg', workingDir, band, subject, channel, band, zval+10000);
+            band = band_array(bandz);
+            band_title = band_title_array(bandz);
+            outfile = sprintf('%s/subj1/video/%s/images_tx/%s_%s_%s_movmean_z%d.jpg', workingDir, band, subject, channel, band, zval+10000);
 
             cur_img = imread(outfile);
 
@@ -147,14 +149,14 @@ for band_inc = 1:1
             imshow(cur_img);
         end
         %initialize and pad hypnogram sides
-        hypno = imread("subj2_hypnogram.png");
+        hypno = imread(sprintf("%s/hypnograms/subj1_hypnogram.png", workingDir));
         %padded_hyp = padarray(hypno,[0 floor((size(cur_img,2)-839)/2)],255);
         
         subplot(3,3,[7,9]);
         imshow(hypno);
       
         %combine two images
-        file = sprintf('%s/video/%s/images/%s_%s_%s_movmean_z%d.jpg', workingDir, band, subject, channel, band, zval+10000);
+        file = sprintf('%s/subj1/video/images_tx/%s_%s_%s_movmean_z%d.jpg', workingDir, subject, channel, band, zval+10000);
         %prod = cat(1,cur_img,padded_hyp);
         
 
@@ -174,11 +176,11 @@ for band_inc = 1:1
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Create Movie
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    videoDir = sprintf('%s/video/%s/', workingDir, band);
-    imageDir = sprintf('%s/video/%s/images/', workingDir, band);
+    videoDir = sprintf('%s/subj1/video/', workingDir);
+    imageDir = sprintf('%s/subj1/video/images_tx/', workingDir);
     imageNames = dir(fullfile(imageDir,'*.jpg'));
     imageNames = {imageNames.name}';
-    video_file = sprintf('%s_%s_%s_yes_axis_limits_x%d.mp4', subject, channel, band, increment);
+    video_file = sprintf('%s_%s_%s_yes_axis_limits_x%d_tx.mp4', subject, channel, band, increment);
     outputVideo = VideoWriter(fullfile(videoDir,video_file), 'MPEG-4');
     open(outputVideo)
 
